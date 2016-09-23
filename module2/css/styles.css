@@ -1,0 +1,11 @@
+
+
+/****** Desktop Syles ******/
+@media(min-width: 992px){}
+
+
+/****** Tablet Syles ******/
+@media(min-width: 768px) and (max-width: 991px){}
+
+/****** Mobile Syles ******/
+@media(min-width: 767px)
