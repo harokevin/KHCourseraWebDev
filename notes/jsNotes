@@ -1,0 +1,102 @@
+How to start Brower Sync:
+//The "**/*" argument to files tells broweser sync to watch
+//	all files and folder in the current directory
+// 	and all files in sub directories
+browser-sync start --server --directory --files "**/*"
+
+//When a fucntion is executed it gets a few things:
+	//own execution context
+	//special "this" variable
+	//referecnes its outer lexical enviroment(parent scope)
+
+Closures
+//Js preserves the outer lexical enviromnet for functions that return functions
+	//Normally(c,c++,java), the outer lexical enviroment would not be preserved 
+//AXAJ would not be possible without closures
+//Example:
+	function appendCustomStringFunctionFactory(str){
+		return (
+			function(x){ return x+str;}
+		);
+	}
+	var sanIfy = appendCustomStringFunctionFactory("-san");
+	var kirito = "Kirito"
+	kirito += sanIfy(kirito) //the sanIfy function has an outer lexical reference to the previous "-san" argument  
+	//kirito is equal to "kirito-san"
+
+
+Fake Namespaces/Psuedo Namespaces
+//Serves the purpose of scoping objects and variables within a namespace
+//This is done so that there can be many variables/objects with the same name in the project. 
+//The only difference between vars of the same names is thier "fake namespace"
+//Similar to: wrapping/acessing fields in an object
+	////Problem:
+		//file: kevin.js
+		var name = "Kevin";
+		var greeting = "Howdy, my name is ";
+
+		//file: slim.js
+		var name = "Slim Shady";
+		var greeting = "Hi! My name is, what!? My name is who? My name is *chica chica* "
+
+		//file: main.js
+		import kevin.js
+		import slim.js
+
+		console.log(greeting + name);
+		console.log(greeting + name);
+		//expected output: 
+			//Howdy, my name is Kevin
+			//Hi! My name is, what!? My name is who? My name is *chica chica* Slim Shady
+		//actual output:
+			//Hi! My name is, what!? My name is who? My name is *chica chica* Slim Shady
+			//Hi! My name is, what!? My name is who? My name is *chica chica* Slim Shady
+
+	////Solution
+		//file: kevin.js
+		var kevin = {};
+		kevin.name = "Kevin";
+		kevin.greeting = "Howdy, my name is ";
+
+		//file: slim.js
+		var slim = {};
+		var name = "Slim Shady";
+		var greeting = "Hi! My name is, what!? My name is who? My name is *chica chica* "
+
+		//file: main.js
+		import kevin.js
+		import slim.js
+
+		console.log(kevin.greeting + kevin.name);
+		console.log(slim.greeting + slim.name);
+		//actual output: 
+			//Howdy, my name is Kevin
+			//Hi! My name is, what!? My name is who? My name is *chica chica* Slim Shady
+
+
+
+
+IFEEs (Immediately Invoked Function Expressions)
+//Serves the purpose of executing a scope immediatly (like a function)
+//	while having variables local to its scope.
+//Combats the issue of idential names in the global scope
+//Example use case: Startup script for when the browser loads
+//Similar to: a main function, an anonymous function/script, automatically running function
+
+	////General form:
+	()(); 									 =>	(function(){})();
+	(/*function*/)(/*function invocation*/); => (function(){/*body*/})(/*function invocation*/);
+	
+	(function(){
+		/*body*/
+	})();
+
+	////Passing body object back to global scope(not anonymous):
+	(function(window){
+		var myAwesomeObject = {};
+		window.myAwesomeObject = myAwesomeObject;
+	})(window);
+
+Enhanced For Loop/For each Loop
+	//General Form:
+	for(var element in array){/*do stuff with 'element'*/}
