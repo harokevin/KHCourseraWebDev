@@ -1,3 +1,6 @@
+/**
+MODULE 4
+**/
 How to start Brower Sync:
 //The "**/*" argument to files tells broweser sync to watch
 //	all files and folder in the current directory
@@ -60,8 +63,8 @@ Fake Namespaces/Psuedo Namespaces
 
 		//file: slim.js
 		var slim = {};
-		var name = "Slim Shady";
-		var greeting = "Hi! My name is, what!? My name is who? My name is *chica chica* "
+		slim.name = "Slim Shady";
+		slim.greeting = "Hi! My name is, what!? My name is who? My name is *chica chica* "
 
 		//file: main.js
 		import kevin.js
@@ -97,6 +100,259 @@ IFEEs (Immediately Invoked Function Expressions)
 		window.myAwesomeObject = myAwesomeObject;
 	})(window);
 
+
+
 Enhanced For Loop/For each Loop
 	//General Form:
 	for(var element in array){/*do stuff with 'element'*/}
+
+
+
+/**
+MODULE 5
+**/
+
+DOM(Document Objet Model) Manipulation
+// window (object): 
+// This object has many properties
+// The window object is the global scope meaning
+// 	you can call document in plain js 
+// 	without specifying 
+	window.document.
+
+	//document(object):
+	//A property of the window object (window.document)
+	//Stores HTML source
+
+	getting an element using its id:
+	document.getElementById("myId"); => 
+		<div id="myId">div stuff<//div>
+
+	docuemnt''s instanceof operator
+	//(document instanceof HTMLDocuemnt) => true
+
+	//HTMLDocument has other methods, like getElementByID,
+		//that can be used to manipulate it content.
+	//window.document is a sub class to HTMLDocument
+
+
+	Simple Event Triggering:
+	<div onClick="myJsFunction();">Click Me!<///div>
+
+
+	Get the HTML contents of an element, by id:
+	document.getElementById("name");
+
+
+	Get the contents inside an element, by id:
+	document.getElementById("name").value;
+
+
+	Set the TEXT LITERAL contents inside an element, by id:
+	document.getElementById("name")
+		.textContent = content;
+
+	Set the HTML content inside an element, by id:
+	This also renders the content as HTML
+	document.getElementById("name")
+		.innerHTML = content;
+
+
+	Get the HTML contents of an element, by selector:
+	document.querySelector('#name');
+	document.querySelector('h1'); //first matching element
+	document.querySelector('.someCssClass'); //first matching element
+
+
+	Get the contents inside an element, by selector:
+	document.querySelector('#name')
+		.textContent;
+
+
+	Set the TEXT LITERAL contents inside an element, by selector:
+	document.querySelector("#name")
+		.textContent = content;
+
+
+
+Handling Events
+//more onsomething...events to handle click, lifecylce, etc.
+//onclick, on blur, ondblclick, onfocus, onkeydown, on keypress, etc...
+//onblur -- when element loses user *focus* (hover?)
+
+	//Every event handeler function get the event argument
+	//Check MSDN for event types and properties
+	function myJsFunction(event){}
+
+	Unobstrusive event binding
+	//Initializeing the onclick event in js, no HTML
+	//First thing that runs
+
+	document.querySelector("button")
+		.addEventListener("click", myJsFunction);
+	//Alternative//
+	document.querySelector("button")
+		.onclick = myJsFunction;
+	//In ^^these^^ examples, using 'this' in myJsFunction
+		//will reference the the 'button' element
+
+
+	Anonymous func-tion as an arument to an event listener
+	//Event lifecycle listener, like onCreate
+	//Allows you to put js link in your head, not end of body
+	//Runs before images, and css load
+	document.addEventListener("DOMContentLoaded",
+		function(event){
+			//bind all your on click method and function here
+		}	
+	);
+	document.querySelector("body")
+		.addEventListener("mousemove",
+		function(event){
+
+		}
+	);
+
+	HTTP Basics
+	//HyperText Transfer Protocol
+	//Based on request/response statless protocol
+	//HTTP inherently stateless
+
+	URN: Uniform Resource Name
+	//Unique identification of resources
+	//?Does not tell us how to get the resource?
+	//EX:MyCourse/Weeks/Week1/Sections/Section1/etc...
+
+	URI: Uniform Resource Identifier
+	//Uniquely identifies resource or location of resource
+	//?Does not *necessarily tell us how to get the resource?
+	//EX: /offical_web_site/index.html
+
+	URL: Uniform Resource Locator
+	//A type of URI
+	//Tells us how to get that resource
+	//EX: http://www.mysite.com/...
+
+	HTTP Request Structure
+	//[Method] [URI String] [QueryString(otional)] [HTTP Version]
+	GET /index.html?firstName=Kevin&lastName=Haro HTTP/1.1
+		//Why use a URI String instead of a URL String?
+			//This assumes the connection has been established already
+
+	HTTP Methods
+
+		GET
+		//Retrieves the resource
+		//data is passed to server as part of the URI (the query string)
+
+		POSTs
+		//Sends data to the server in order to be processes
+		//Data is sent in the message ?body?
+		//EX: 	POST /index.html HTTP/1.1
+			// 	Host: coursera.org			//request header
+			// 	Accept-Charset: utf-8		//request header	
+			// 	firstName=Kevin...			//message body
+			// 	...							//message body
+			// 	...							//message body
+
+		HTTP response
+		//[HTTP Version] [Response status code] [English status code]
+		//EX: HTTP/1.1 200 OK
+		//Status Codes: 200 OK, 404 not found, 403 forbidden, 500 internal server error
+
+
+AJAX Basics
+//Asynchronous Javascript and XML
+//HTML and JSON is used instead of XML
+//Purpose: an alternative to classic server querying
+	//where the entire page would be returned on HTTP request.
+	//AJAX instead returns a subset of data that gets
+		//hot swapped in the current page
+//Eventhough the JS engine is synchronous, the HTTP Request
+	//mangager/module is not. ?Callbacks?
+
+	AJAX Script element
+	<script src="js/ajax-utils.js"><//script>
+
+	//Lecture 57 walks you through ajax-utils.js
+
+	//Put your html modfiying source in the body of the request callback
+
+	//ajaxload.info for ajax loading icons
+
+	//XHR XML HTTP REQUEST
+
+Processing JSON
+//JavaScript Object Notation
+//Lightweight
+//Easy for machines, easy for humans
+//property names must be in double quotes
+//string values must be in double quotes
+//JSON is not a js object literal!
+ 
+	 JS JSON conversion utilities
+	 JSON => Object
+	 var obj = JSON.parse(jsonString);
+
+	 Object => JSON
+	 var str = JSON.stringify(obj);
+
+JQuery Basics
+	
+	$(function(event){
+			/*body*/
+	}); 
+	!is the same as!
+	document.addEventListener("DOMContentLoaded",
+		function(event){
+			/*body*/
+	});
+
+	$("name")
+	!is the same as!
+	document.querySelector('#name');
+
+
+CORS -Cross origin resource sharing
+//accessing websites in addition to the source website
+//http headers that allow access to other sources(like a api, heroku)
+
+
+
+pull, get, parse, use: json for the site using ajax
+// it is a pattern to inflate a template snipit for a SPA(Single page aplication)
+	//The template can be parsed for a special char({{}}) for the purpose of inserting/really-replacing content
+	//There are libraries to do this
+//js jas a .replace function
+	string = string.replace(new RegExp(replacement, "g"), replace-ee)
+	// "g" is a flag that specfies replacement of all occurences
+
+//lecture 61&62
+//Psuedo code for loading a reusable 'food categories' template 
+controller.loadSiteWithTemplates = function(){
+	//show a loading image
+	$ajaxUtils.sendGetRequest(
+		allCategoriesURL,
+		/*makeCall: build and show the food categories*/);
+};
+
+function onResponse(categories){
+	//get all categories
+	$ajax.sendGetRequest(
+		templateTitleHTML,
+		function(templateTitleHTML){
+			//get single category
+			$ajaxUtils.sendGetRequest(
+				templateHTML,
+				function(templateHTML){
+					var templatesViewHTML =
+						buildTemplatesViewHTML(templates,	 
+							templatesTitleHTML,templatesHTML);
+					insertHTML("#elemntToInflate", templatesViewHTML);
+				},
+			false);
+		},
+	false);
+}
+//buildTemplatesViewHTML takes given content and inflates containers with json content
+
